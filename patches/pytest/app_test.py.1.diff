@@ -1,0 +1,24 @@
+diff --git a/pytest/app_test.py b/pytest/app_test.py
+index 9df6e2d..61c86b2 100644
+--- a/pytest/app_test.py
++++ b/pytest/app_test.py
+@@ -1,7 +1,17 @@
+ import pandas as pd
+ 
++NUMBER_OF_ITEMS = 29
++BALANCE_SHEET_ID = '1kQp2gf0OT4NFoi_UFSCSMWqQcMOdEJ6Q'
++STOCK_MOVEMENT_SHEET_ID = '112XZL4n09YQk3skjYVLe_xLAlNuEVrxs'
++
+ def test_item_count_on_balance():
+-    sheet_id = '1kQp2gf0OT4NFoi_UFSCSMWqQcMOdEJ6Q'
++    sheet_id = BALANCE_SHEET_ID
++    df = pd.read_csv(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv")
++    assert df is not None
++    assert len(df.index) == NUMBER_OF_ITEMS
++
++def test_item_count_on_movement():
++    sheet_id = STOCK_MOVEMENT_SHEET_ID
+     df = pd.read_csv(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv")
+     assert df is not None
+-    assert len(df.index) == 29
++    assert df['item'].nunique() == NUMBER_OF_ITEMS

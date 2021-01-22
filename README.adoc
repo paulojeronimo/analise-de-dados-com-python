@@ -1,0 +1,3 @@
+= analise-de-dados-com-python
+
+Leia (em breve): https://paulojeronimo.com/analise-de-dados-com-python

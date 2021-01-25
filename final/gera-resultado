@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 set -eou pipefail
 
-python main.py
+cd "`dirname "$0"`"
+log=`basename "$0"`.log
+python -u main.py | tee $log

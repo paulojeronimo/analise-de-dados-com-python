@@ -1,25 +1,25 @@
-import pandas as pd
-
-NUMBER_OF_ITEMS = 29
-BALANCE_SHEET_ID = '1kQp2gf0OT4NFoi_UFSCSMWqQcMOdEJ6Q'
-STOCK_MOVEMENT_SHEET_ID = '112XZL4n09YQk3skjYVLe_xLAlNuEVrxs'
+from lib.comum import NUMERO_DE_ITENS, le_arquivo
+from lib.movto import MOVTO_SHEET_ID
+from lib.saldo import SALDO_SHEET_ID
 
 
 def with_sheet_id(sheet_id):
     def inner_function(func):
         def wrapper():
-            df = pd.read_csv(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv")
+            df = le_arquivo(sheet_id)
             assert df is not None
             return func(df)
+
         return wrapper
+
     return inner_function
 
 
-@with_sheet_id(BALANCE_SHEET_ID)
+@with_sheet_id(SALDO_SHEET_ID)
 def test_item_count_on_balance(df):
-    assert len(df.index) == NUMBER_OF_ITEMS
+    assert len(df.index) == NUMERO_DE_ITENS
 
 
-@with_sheet_id(STOCK_MOVEMENT_SHEET_ID)
+@with_sheet_id(MOVTO_SHEET_ID)
 def test_item_count_on_movement(df):
-    assert df['item'].nunique() == NUMBER_OF_ITEMS
+    assert df['item'].nunique() == NUMERO_DE_ITENS
